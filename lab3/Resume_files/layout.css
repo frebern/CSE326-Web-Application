@@ -15,8 +15,8 @@ header ul{
 #wrap {
 	border:white 10px solid;
 	background-color:white;
-	float:left;
-	overflow:hidden;
+	overflow:visible;
+	position:relative;
 }
 aside{
 	background-color:#3366CC;
@@ -25,7 +25,7 @@ aside{
 	float:left;
 }
 section{
-	float:left;
+	margin-left:168px;
 }
 article{
 	border-radius:15px;
