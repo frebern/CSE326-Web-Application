@@ -12,7 +12,6 @@
 		# Check the existance of each parameter using the PHP function 'isset'.
 		# Check the blankness of an element in $_POST by comparing it to the empty string.
 		# (can also use the element itself as a Boolean test!)
-		# if (){
 			$retry = 0;
 			if(!(isset($_POST["name"]) && isset($_POST["id"]) && isset($_POST["course"]) && isset($_POST["grade"]) && isset($_POST["cardnum"]) && isset($_POST["cardkind"]))){
 				$retry=1;
@@ -20,61 +19,58 @@
 			elseif(is_null($_POST["name"])||is_null($_POST["id"])||is_null($_POST["course"])||is_null($_POST["grade"])||is_null($_POST["cardnum"])||is_null($_POST["cardkind"])){
 				$retry=1;
 			}
-			print($retry);
-			if(retry==1){
-				print($retry);
+			if($retry==0){
+				$name = htmlspecialchars($_POST["name"]);
+				$id = htmlspecialchars($_POST["id"]);
+				$arr_course = $_POST["course"];
+				$grade = htmlspecialchars($_POST["grade"]);
+				$cardnum = htmlspecialchars($_POST["cardnum"]);
+				$cardkind = htmlspecialchars($_POST["cardkind"]);
+				$str_course = htmlspecialchars(processCheckbox($arr_course));
+			}
+			if($retry==1){
 		?>
 
 		<!-- Ex 4 : 
 			Display the below error message : -->
 			<h1>Sorry</h1>
-			<p>You didn't fill out the form completely. Try again?</p>
+			<p>You didn't fill out the form completely. <a href="gradestore.html">Try again?</a></p>
 		<!----> 
 
 		<?php
 		# Ex 5 : 
 		# Check if the name is composed of alphabets, dash(-), ora single white space.
-			} elseif(!preg_match("/^[a-zA-Z]*$/",$name)){ 
+			} elseif(!preg_match("/^[a-zA-Z]+[-\s]?[a-zA-Z]+$/",$name)){ 
 		?>
 
 		<!-- Ex 5 : 
 			Display the below error message : -->
 			<h1>Sorry</h1>
-			<p>You didn't provide a valid name. Try again?</p>
+			<p>You didn't provide a valid name. <a href="gradestore.html">Try again?</a></p>
 		<!-- --> 
 
 		<?php
-			}
 		# Ex 5 : 
 		# Check if the credit card number is composed of exactly 16 digits.
 		# Check if the Visa card starts with 4 and MasterCard starts with 5. 
-		# } elseif () {
+			} elseif (!(preg_match("/^\d{16}$/",$cardnum) && ((!strcmp($cardkind,"Visa") && preg_match("/^4/", $cardnum)) || (!strcmp($cardkind,"MasterCard") && preg_match("/^4/", $cardnum))))) {
 		?>
 
 		<!-- Ex 5 : 
-			Display the below error message : 
+			Display the below error message : -->
 			<h1>Sorry</h1>
-			<p>You didn't provide a valid credit card number. Try again?</p>
-		--> 
+			<p>You didn't provide a valid credit card number. <a href="gradestore.html">Try again?</a></p>
+		<!-- --> 
 
 		<?php
 		# if all the validation and check are passed 
-		# } else {
+			} else {
 		?>
 
 		<h1>Thanks, looser!</h1>
 		<p>Your information has been recorded.</p>
 		
 		<!-- Ex 2: display submitted data -->
-		<?php
-			$name = htmlspecialchars($_POST["name"]);
-			$id = htmlspecialchars($_POST["id"]);
-			$arr_course = $_POST["course"];
-			$grade = htmlspecialchars($_POST["grade"]);
-			$cardnum = htmlspecialchars($_POST["cardnum"]);
-			$cardkind = htmlspecialchars($_POST["cardkind"]);
-			$str_course = htmlspecialchars(processCheckbox($arr_course));
-		?>
 		<ul> 
 			<li>Name: <?=$name?></li>
 			<li>ID: <?=$id?></li>
@@ -102,6 +98,7 @@
 		<pre><?=file_get_contents($filename)?></pre>
 		
 		<?php
+		}
 			/* Ex 2: 
 			 * Assume that the argument to this function is array of names for the checkboxes ("cse326", "cse107", "cse603", "cin870")
 			 * 
