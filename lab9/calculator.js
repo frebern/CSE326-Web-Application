@@ -42,7 +42,7 @@ window.onload = function () {
 				document.getElementById("expression").innerHTML = expr;
 				
 				if(value=="!"){
-					stack.push(factorial(stack.pop()));
+					stack.push(factorial(displayVal));
 					displayVal = 0;
 				}
 				else if(ishigh.test(value)){
