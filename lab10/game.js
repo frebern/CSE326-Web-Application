@@ -24,7 +24,7 @@ function resetAll(){
 		clearInterval(timer);
 	}
 	timer = null;
-	var blocks = $$("div#blocks>div");
+	var blocks = $$(".block");
 	for(var i=0;i<numberOfBlocks;i++){
 		if(blocks[i].hasClassName("target")){
 			blocks[i].removeClassName("target");
@@ -52,7 +52,7 @@ function startToSetTarget(){
 
 	setState("Ready!");
 
-	var blocks = $$("div#blocks div");
+	var blocks = $$(".block");
 	for(var i=0;i<numberOfTarget;i++){
 		var flag = false;
 		var r = parseInt(Math.random()*10)%numberOfBlocks;
@@ -84,7 +84,7 @@ function setTargetToShow(){
 	}
 
 	setState("Memorize!");
-	var blocks = $$("div#blocks div");
+	var blocks = $$(".block");
 	for(var i=0;i<numberOfTarget;i++){
 		blocks[targetBlocks[i]].addClassName("target");
 	}
@@ -101,7 +101,7 @@ function showToSelect(){
 
 	setState("Select!");
 
-	var blocks = $$("div#blocks>div");
+	var blocks = $$(".block");
 	for(var i=0;i<numberOfBlocks;i++){
 		
 		if(blocks[i].hasClassName("target")){
@@ -109,6 +109,7 @@ function showToSelect(){
 		}
 		
 		blocks[i].observe("click",function(){
+			var i = parseInt(this.getAttribute("data-index"));
 			for(var j=0;j<selectedBlocks.length;j++){
 				if(selectedBlocks[j]==i){
 					return false;
@@ -141,16 +142,15 @@ function selectToResult(){
 	var correct = parseInt(answer[0]);
 	var total = parseInt(answer[1]);
 
-	alert(correct);
-	alert(total);
-	var blocks = $$("div#blocks>div");
-	for(var i = 0;i<numberOfTarget;i++){
+	var blocks = $$(".block");
+	var len =selectedBlocks.length;
+	for(var i = 0;i<len;i++){
 		var selected = selectedBlocks.pop();
 		if(blocks[selected].hasClassName("selected")){
 			blocks[selected].removeClassName("selected");
 		}
 
-		selected.stopObserving("click");
+		blocks[selected].stopObserving("click");
 		
 		for(var j=0;j<numberOfTarget;j++){
 			if(targetBlocks[j]===selected){
@@ -160,10 +160,8 @@ function selectToResult(){
 		
 	}
 	total+=3;
-	alert(correct);
-	alert(total);
 	
-	$("answer").innerHTML = correct.toString() + " of  correct answer/" + total.toString();
+	$("answer").innerHTML = correct + " /" + total;
 
 	timer = setInterval(startToSetTarget,interval);
 
