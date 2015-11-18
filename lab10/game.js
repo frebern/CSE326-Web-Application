@@ -16,13 +16,18 @@ function setState(state){
 	$("state").innerHTML=state;
 }
 
+function clearTimer(){
+	if(timer!==null){
+		clearInterval(timer);
+		timer = null;
+	}
+}
+
 //모든 세팅을 Reset하는 함수입니다.
 function resetAll(){
 	targetBlocks = [];
 	selectedBlocks = [];
-	if(timer!==null){
-		clearInterval(timer);
-	}
+	clearTimer();
 	timer = null;
 	var blocks = $$(".block");
 	for(var i=0;i<numberOfBlocks;i++){
@@ -56,7 +61,6 @@ function startToSetTarget(){
 	for(var i=0;i<numberOfTarget;i++){
 		var flag = false;
 		var r = parseInt(Math.random()*10)%numberOfBlocks;
-		console.log(r);
 
 		for(var j=0;j<targetBlocks.length;j++){
 			if(targetBlocks[j]==r){
@@ -77,11 +81,8 @@ function startToSetTarget(){
 }
 
 function setTargetToShow(){
-	
-	if(timer!==null){
-		clearInterval(timer);
-		timer = null;
-	}
+
+	clearTimer();
 
 	setState("Memorize!");
 	var blocks = $$(".block");
@@ -94,10 +95,7 @@ function setTargetToShow(){
 
 function showToSelect(){
 
-	if(timer!==null){
-		clearInterval(timer);
-		timer = null;
-	}
+	clearTimer();
 
 	setState("Select!");
 
@@ -143,6 +141,9 @@ function selectToResult(){
 	var total = parseInt(answer[1]);
 
 	var blocks = $$(".block");
+	for(var i =0;i<numberOfBlocks;i++){
+		blocks[i].stopObserving("click");
+	}
 	var len =selectedBlocks.length;
 	for(var i = 0;i<len;i++){
 		var selected = selectedBlocks.pop();
@@ -150,8 +151,6 @@ function selectToResult(){
 			blocks[selected].removeClassName("selected");
 		}
 
-		blocks[selected].stopObserving("click");
-		
 		for(var j=0;j<numberOfTarget;j++){
 			if(targetBlocks[j]===selected){
 				correct++;
