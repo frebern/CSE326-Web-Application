@@ -160,7 +160,7 @@ function selectToResult(){
 	}
 	total+=3;
 	
-	$("answer").innerHTML = correct + " /" + total;
+	$("answer").innerHTML = correct + "/" + total;
 
 	timer = setInterval(startToSetTarget,interval);
 
